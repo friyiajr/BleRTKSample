@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import bleReducer from "../state/BluetoothLowEnergy/slice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { bleMiddleware } from "./BluetoothLowEnergy/listener";
 
 const appReducer = combineReducers({
   ble: bleReducer,
@@ -9,6 +10,9 @@ const appReducer = combineReducers({
 
 export const store = configureStore({
   reducer: appReducer,
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(bleMiddleware.middleware);
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

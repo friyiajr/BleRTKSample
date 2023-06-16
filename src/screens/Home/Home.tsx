@@ -1,26 +1,45 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useAppSelector } from "../../state/store";
-import { useDispatch } from "react-redux";
-import { setColor } from "../../state/BluetoothLowEnergy/slice";
+
+const screens = ["Notify", "Read", "Write"];
 
 export const Home = () => {
   const connectedDevice = useAppSelector((state) => state.ble.connectedDevice);
-  const dispatch = useDispatch();
-  const state = useAppSelector((state) => state);
-  console.log("state", state);
+  const nav = useNavigation<any>();
 
   const onButtonTapped = () => {
-    dispatch(setColor("#000000"));
+    nav.push("Connect");
   };
 
   return (
     <View style={styles.container}>
       {connectedDevice?.id ? (
-        <Text>You Are Connected</Text>
+        <View>
+          <FlatList
+            style={{ marginTop: 30 }}
+            data={screens}
+            renderItem={({ item }) => {
+              const goToScreen = () => {
+                nav.push(item);
+              };
+              return (
+                <Pressable
+                  style={styles.connectToDeviceBtn}
+                  onPress={goToScreen}
+                >
+                  <Text style={styles.connectBtnTextColor}>{item}</Text>
+                </Pressable>
+              );
+            }}
+          />
+        </View>
       ) : (
-        <Pressable onPress={onButtonTapped}>
-          <Text>You Are Not Connected</Text>
+        <Pressable style={styles.connectToDeviceBtn} onPress={onButtonTapped}>
+          <Text style={styles.connectBtnTextColor}>
+            Please Connect To A Device
+          </Text>
         </Pressable>
       )}
     </View>
@@ -30,7 +49,20 @@ export const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  connectToDeviceBtn: {
+    backgroundColor: "purple",
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginVertical: 7,
+    height: 70,
     justifyContent: "center",
-    alignItems: "center",
+    marginHorizontal: 20,
+  },
+  connectBtnTextColor: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
   },
 });

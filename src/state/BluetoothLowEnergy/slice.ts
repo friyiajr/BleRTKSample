@@ -1,10 +1,11 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAction, createSlice } from "@reduxjs/toolkit";
 import { Device } from "react-native-ble-plx";
+import { DeviceReference } from "./BluetoothLeManager";
 
 interface BluetoothState {
-  allDevices: Device[];
+  allDevices: DeviceReference[];
   currentColor: string;
-  connectedDevice: Device | null;
+  connectedDevice: DeviceReference | null;
 }
 
 const initialState: BluetoothState = {
@@ -13,28 +14,38 @@ const initialState: BluetoothState = {
   connectedDevice: null,
 };
 
-export type DevicesAction = PayloadAction<Device[]>;
+export type DevicesAction = PayloadAction<DeviceReference>;
 export type ColorAction = PayloadAction<string>;
-export type DeviceAction = PayloadAction<Device>;
+export type DeviceAction = PayloadAction<DeviceReference>;
+
+const isDuplicteDevice = (
+  devices: DeviceReference[],
+  nextDevice: DeviceReference
+) => devices.findIndex((device) => nextDevice.id === device.id) > -1;
+
+export const startScanning = createAction("bleState/startScanning");
+export const startListeningForColors = createAction(
+  "bleState/startListeningForColors"
+);
 
 const bleSlice = createSlice({
   name: "bleState",
   initialState,
   reducers: {
-    startScanning: (state) => state,
     setDevices: (state, action: DevicesAction) => {
-      state.allDevices = action.payload;
+      if (!isDuplicteDevice(state.allDevices, action.payload)) {
+        state.allDevices = [...state.allDevices, action.payload];
+      }
     },
     setColor: (state, action: ColorAction) => {
       state.currentColor = action.payload;
     },
-    setConnectedDevice: (state, action: DeviceAction) => {
+    setConnectedDevice: (state, action: PayloadAction<DeviceReference>) => {
       state.connectedDevice = action.payload;
     },
   },
 });
 
-export const { setDevices, setColor, setConnectedDevice, startScanning } =
-  bleSlice.actions;
+export const { setDevices, setColor, setConnectedDevice } = bleSlice.actions;
 
 export default bleSlice.reducer;
