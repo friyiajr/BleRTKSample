@@ -6,12 +6,14 @@ interface BluetoothState {
   allDevices: DeviceReference[];
   currentColor: string;
   connectedDevice: DeviceReference | null;
+  retrievedColor?: string | null;
 }
 
 const initialState: BluetoothState = {
   allDevices: [],
   currentColor: "#FFFFFF",
   connectedDevice: null,
+  retrievedColor: undefined,
 };
 
 export type DevicesAction = PayloadAction<DeviceReference>;
@@ -43,9 +45,16 @@ const bleSlice = createSlice({
     setConnectedDevice: (state, action: PayloadAction<DeviceReference>) => {
       state.connectedDevice = action.payload;
     },
+    setRetrievedColor: (
+      state,
+      action: PayloadAction<string | undefined | null>
+    ) => {
+      state.retrievedColor = action.payload;
+    },
   },
 });
 
-export const { setDevices, setColor, setConnectedDevice } = bleSlice.actions;
+export const { setDevices, setColor, setConnectedDevice, setRetrievedColor } =
+  bleSlice.actions;
 
 export default bleSlice.reducer;

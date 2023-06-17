@@ -8,7 +8,9 @@ import {
 } from "react-native-ble-plx";
 
 const COLOR_SERVICE = "96e4d99a-066f-444c-b67c-112345e3b1a2";
-const COLOR_CHARACTARISTIC = "7c0209c0-93f0-437a-828a-a58379b230c4";
+const COLOR_CHARACTARISTIC_NOTIFY = "7c0209c0-93f0-437a-828a-a58379b230c4";
+const COLOR_CHARACTARISTIC_WRITE = "1b3dcc2d-cc56-4b47-b6c2-13745858c7df";
+const COLOR_CHARACTARISTIC_READ = "3d84e60b-90d0-40d4-993a-1b83424cb868";
 
 export interface DeviceReference {
   name?: string | null;
@@ -31,7 +33,7 @@ class BluetoothLeManager {
     this.bleManager.startDeviceScan(null, null, (error, scannedDevice) => {
       onDeviceFound({
         id: scannedDevice?.id,
-        name: scannedDevice?.name ?? scannedDevice?.localName,
+        name: scannedDevice?.localName ?? scannedDevice?.name,
       });
       return;
     });
@@ -43,6 +45,7 @@ class BluetoothLeManager {
 
   connectToPeripheral = async (identifier: string) => {
     this.device = await this.bleManager.connectToDevice(identifier);
+    await this.device?.discoverAllServicesAndCharacteristics();
   };
 
   onColorUpdate = (
@@ -66,15 +69,41 @@ class BluetoothLeManager {
   startStreamingData = async (
     emitter: (bleValue: { payload: string | BleError }) => void
   ) => {
-    await this.device?.discoverAllServicesAndCharacteristics();
     if (!this.isListening) {
       this.isListening = true;
       this.device?.monitorCharacteristicForService(
         COLOR_SERVICE,
-        COLOR_CHARACTARISTIC,
+        COLOR_CHARACTARISTIC_NOTIFY,
         (error, characteristic) =>
           this.onColorUpdate(error, characteristic, emitter)
       );
+    }
+  };
+
+  sendColor = async (color: string) => {
+    const data = base64.encode(color);
+    try {
+      await this.bleManager.writeCharacteristicWithResponseForDevice(
+        this.device?.id ?? "",
+        COLOR_SERVICE,
+        COLOR_CHARACTARISTIC_WRITE,
+        data
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  readColor = async () => {
+    try {
+      const color = await this.bleManager.readCharacteristicForDevice(
+        this.device?.id ?? "",
+        COLOR_SERVICE,
+        COLOR_CHARACTARISTIC_READ
+      );
+      return base64.decode(color.value ?? "");
+    } catch (e) {
+      console.log(e);
     }
   };
 }

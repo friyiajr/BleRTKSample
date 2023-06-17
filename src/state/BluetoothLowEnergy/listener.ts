@@ -3,6 +3,7 @@ import {
   setColor,
   setConnectedDevice,
   setDevices,
+  setRetrievedColor,
   startListeningForColors,
   startScanning,
 } from "./slice";
@@ -17,6 +18,22 @@ export const connectToDevice = createAsyncThunk(
       await bluetoothLeManager.connectToPeripheral(ref.id);
       thunkApi.dispatch(setConnectedDevice(ref));
     }
+  }
+);
+
+export const sendColorData = createAsyncThunk(
+  "bleThunk/sendColorData",
+  async (color: string, thunkApi) => {
+    await bluetoothLeManager.sendColor(color);
+    thunkApi.dispatch(setColor(color));
+  }
+);
+
+export const readColorData = createAsyncThunk(
+  "bleThunk/readColorData",
+  async (_, thunkApi) => {
+    const color = await bluetoothLeManager.readColor();
+    thunkApi.dispatch(setRetrievedColor(color));
   }
 );
 

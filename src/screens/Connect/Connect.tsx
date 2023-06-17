@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from "../../state/store";
 import { connectToDevice } from "../../state/BluetoothLowEnergy/listener";
 import { DeviceReference } from "../../state/BluetoothLowEnergy/BluetoothLeManager";
 import { useNavigation } from "@react-navigation/native";
-import { FontWeight } from "@shopify/react-native-skia";
 
 export const Connect = () => {
   const nav = useNavigation();
