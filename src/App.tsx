@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,8 +10,13 @@ import { Write } from "./screens/Write/Write";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
 import { Connect } from "./screens/Connect/Connect";
+import { requestPermissions } from "./state/BluetoothLowEnergy/utils";
 
 const App = () => {
+  useEffect(() => {
+    requestPermissions();
+  }, []);
+
   const Stack = createNativeStackNavigator();
   return (
     <Provider store={store}>

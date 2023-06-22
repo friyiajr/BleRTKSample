@@ -12,7 +12,6 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",
-    "@shopify/react-native-skia": "0.1.157",
     "eas-cli": "^3.5.2",
     "expo": "~47.0.14",
     "expo-dev-client": "~2.0.1",

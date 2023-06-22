@@ -17,6 +17,7 @@ export const connectToDevice = createAsyncThunk(
     if (ref.id) {
       await bluetoothLeManager.connectToPeripheral(ref.id);
       thunkApi.dispatch(setConnectedDevice(ref));
+      bluetoothLeManager.stopScanningForPeripherals();
     }
   }
 );

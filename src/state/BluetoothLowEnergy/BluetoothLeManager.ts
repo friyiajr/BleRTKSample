@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import base64 from "react-native-base64";
 import {
   BleError,
@@ -30,12 +29,11 @@ class BluetoothLeManager {
   scanForPeripherals = (
     onDeviceFound: (deviceSummary: DeviceReference) => void
   ) => {
-    this.bleManager.startDeviceScan(null, null, (error, scannedDevice) => {
+    this.bleManager.startDeviceScan(null, null, (_, scannedDevice) => {
       onDeviceFound({
         id: scannedDevice?.id,
         name: scannedDevice?.localName ?? scannedDevice?.name,
       });
-      return;
     });
   };
 
