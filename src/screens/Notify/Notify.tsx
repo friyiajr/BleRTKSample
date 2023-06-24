@@ -1,26 +1,21 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../state/store";
-import { startListening } from "../../state/BluetoothLowEnergy/slice";
 
 export const Notify = () => {
-  const dispatch = useAppDispatch();
-  const backgroundColor = useAppSelector((state) => state.ble.retrievedColor);
-
   useEffect(() => {
-    dispatch(startListening());
+    // dispatch(startListening());
   }, []);
 
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: backgroundColor ?? "#FFFFFF" },
+        // { backgroundColor: backgroundColor ?? "#FFFFFF" },
       ]}
     >
       <View style={styles.colorBox}>
         <Text style={styles.colorTitleText}>Your Color</Text>
-        <Text style={styles.colorHexText}>{backgroundColor}</Text>
+        <Text style={styles.colorHexText}>{/*backgroundColor*/}</Text>
       </View>
     </View>
   );

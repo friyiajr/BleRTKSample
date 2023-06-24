@@ -1,14 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import { useAppSelector } from "../../state/store";
 
 const screens = ["Notify", "Read", "Write"];
 
 export const Home = () => {
   const nav = useNavigation<any>();
-
-  const connectedDevice = useAppSelector((state) => state.ble.connectedDevice);
 
   const onButtonTapped = () => {
     nav.push("Connect");
@@ -16,7 +13,7 @@ export const Home = () => {
 
   return (
     <View style={styles.container}>
-      {connectedDevice?.id ? (
+      {/* {connectedDevice?.id ? (
         <View>
           <FlatList
             style={{ marginTop: 30 }}
@@ -36,13 +33,13 @@ export const Home = () => {
             }}
           />
         </View>
-      ) : (
-        <Pressable style={styles.connectToDeviceBtn} onPress={onButtonTapped}>
-          <Text style={styles.connectBtnTextColor}>
-            Please Connect To A Device
-          </Text>
-        </Pressable>
-      )}
+      ) : ( */}
+      <Pressable style={styles.connectToDeviceBtn} onPress={onButtonTapped}>
+        <Text style={styles.connectBtnTextColor}>
+          Please Connect To A Device
+        </Text>
+      </Pressable>
+      {/* )} */}
     </View>
   );
 };

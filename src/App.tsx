@@ -8,7 +8,7 @@ import { Notify } from "./screens/Notify/Notify";
 import { Read } from "./screens/Read/Read";
 import { Write } from "./screens/Write/Write";
 import { Provider } from "react-redux";
-import { store } from "./state/store";
+// import { store } from "./state/store";
 import { Connect } from "./screens/Connect/Connect";
 import { requestPermissions } from "./state/BluetoothLowEnergy/utils";
 
@@ -19,21 +19,21 @@ const App = () => {
 
   const Stack = createNativeStackNavigator();
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Notify" component={Notify} />
-          <Stack.Screen name="Read" component={Read} />
-          <Stack.Screen name="Write" component={Write} />
-          <Stack.Screen
-            name="Connect"
-            component={Connect}
-            options={{ presentation: "modal" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    // <Provider store={store}>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Notify" component={Notify} />
+        <Stack.Screen name="Read" component={Read} />
+        <Stack.Screen name="Write" component={Write} />
+        <Stack.Screen
+          name="Connect"
+          component={Connect}
+          options={{ presentation: "modal" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+    // </Provider>
   );
 };
 

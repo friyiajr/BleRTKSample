@@ -2,27 +2,22 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-import { useAppDispatch, useAppSelector } from "../../state/store";
-import { startScanning } from "../../state/BluetoothLowEnergy/slice";
-import { connectToDevice } from "../../state/BluetoothLowEnergy/listener";
 
 export const Connect = () => {
   const nav = useNavigation();
-  const dispatch = useAppDispatch();
-  const discoveredDevices = useAppSelector((state) => state.ble.allDevices);
 
   useEffect(() => {
-    dispatch(startScanning());
+    // dispatch(startScanning());
   }, []);
 
   const onDeviceSelected = (deviceId: any) => {
-    dispatch(connectToDevice(deviceId));
+    // dispatch(connectToDevice(deviceId));
     nav.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
+      {/* <FlatList
         style={styles.list}
         data={discoveredDevices}
         renderItem={({ item }) => {
@@ -36,7 +31,7 @@ export const Connect = () => {
             </Pressable>
           );
         }}
-      />
+      /> */}
     </View>
   );
 };
