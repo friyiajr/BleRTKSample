@@ -1,15 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../state/store";
-import { readColorData } from "../../state/BluetoothLowEnergy/listener";
+import { readColorFromDevice } from "../../state/BluetoothLowEnergy/listener";
 
 export const Read = () => {
   const dispatch = useAppDispatch();
   const backgroundColor = useAppSelector((state) => state.ble.retrievedColor);
-  console.log("backgroundColor", backgroundColor);
 
   const readRemoteColor = () => {
-    dispatch(readColorData());
+    dispatch(readColorFromDevice());
   };
 
   return (

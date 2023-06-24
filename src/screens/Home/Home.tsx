@@ -6,8 +6,9 @@ import { useAppSelector } from "../../state/store";
 const screens = ["Notify", "Read", "Write"];
 
 export const Home = () => {
-  const connectedDevice = useAppSelector((state) => state.ble.connectedDevice);
   const nav = useNavigation<any>();
+
+  const connectedDevice = useAppSelector((state) => state.ble.connectedDevice);
 
   const onButtonTapped = () => {
     nav.push("Connect");

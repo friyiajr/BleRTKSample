@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 
-import { startScanning } from "../../state/BluetoothLowEnergy/slice";
-import { useAppDispatch, useAppSelector } from "../../state/store";
-import { connectToDevice } from "../../state/BluetoothLowEnergy/listener";
-import { DeviceReference } from "../../state/BluetoothLowEnergy/BluetoothLeManager";
 import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch, useAppSelector } from "../../state/store";
+import { startScanning } from "../../state/BluetoothLowEnergy/slice";
+import { connectToDevice } from "../../state/BluetoothLowEnergy/listener";
 
 export const Connect = () => {
   const nav = useNavigation();
@@ -16,7 +15,7 @@ export const Connect = () => {
     dispatch(startScanning());
   }, []);
 
-  const onDeviceSelected = (deviceId: DeviceReference) => {
+  const onDeviceSelected = (deviceId: any) => {
     dispatch(connectToDevice(deviceId));
     nav.goBack();
   };

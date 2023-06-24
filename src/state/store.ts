@@ -1,8 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import bleReducer from "../state/BluetoothLowEnergy/slice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { bleMiddleware } from "./BluetoothLowEnergy/listener";
+
+import bleReducer from "./BluetoothLowEnergy/slice";
 
 const appReducer = combineReducers({
   ble: bleReducer,
